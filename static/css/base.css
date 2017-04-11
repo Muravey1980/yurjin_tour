@@ -1,0 +1,126 @@
+@charset "utf-8";
+
+#logo{
+	float: center;
+	height: 200px;
+}
+
+#hello_msg{
+	/**position: fixed;**/
+    right: 0; top: 0;
+}
+
+#leftmenu {
+  /**background: #e0ebff;**/
+  background: #417690;
+  float: left;
+  width: 100px;
+  padding: 10px;
+  min-height: 440px;
+  /**margin-bottom: 0px;**/
+  /**border-right: 1px #cccccc solid;**/
+}
+
+#leftmenu a{
+	color: f79420;	
+}
+
+#leftmenu ul {
+  margin: 0px;
+  padding: 10px;
+  font-size:80%;
+}
+
+#leftmenu ul li {
+  font-size: larger;
+  list-style-type: none;
+  margin: 0px 10px 10px 0px;
+}
+
+#contract_grid {
+	
+}
+
+tr.draft{
+	background-color: white;
+}
+tr.signed{
+	background-color: orange;
+}
+tr.paid{
+	background-color: green;
+}
+tr.closed{
+	color: grey;
+}
+
+#contract_grid odd{
+
+}
+
+#contract{
+	
+}
+
+#contract h1{
+	text-align: center;
+}
+
+#contract h2{
+	text-align: center;
+}
+
+#contract p{
+	text-indent: 40px;
+	text-align: justify;
+	margin-top: 0em; /* Отступ сверху */
+    margin-bottom: 0em; /* Отступ снизу */
+}
+
+body {
+	 font:small sans-serif;
+}
+
+#header {
+  /**background: #417690;**/
+  /**background: #e0ebff;**/
+  height: 70px;
+  text-align: center;
+  /**border-bottom: 1px #cccccc solid;**/
+}
+
+#main {
+  margin-left: 110px;
+  /** border-left: 1px #cccccc solid;**/
+  padding: 10px;
+  min-height: 440px;
+  /**margin-bottom: 0px;**/
+  /**border-bottom: 1px #cccccc solid;**/
+}
+
+#footer {
+  /**margin-top: 10px;**/
+  text-align: right;
+  /**border-top: 1px #cccccc solid;**/
+  padding-right: 10px;
+  background: #417690;
+  /**min-height:50px;**/
+  /**border-top: 1px #cccccc solid;**/
+  float: bottom;
+}
+
+
+#pagination {
+  /** background: #79aec8;**/
+  margin-top: 0px;
+}
+#pagination #previous-page {
+  float: left;
+  /** width: 100px; **/
+}
+#pagination #num-pages {
+  text-align: center;
+}
+#pagination #next-page {
+  float: right;
+}

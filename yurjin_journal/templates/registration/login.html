@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+    <center>
+    <h2>Вход</h2>
+    <form action="" method="post">
+        <table>
+            {% include "form.html" %}
+        </table>
+        <div class="submit-button"><input type="submit" value="Войти"></div>
+        <input type="hidden" name="next" value="{{ next }}">
+    </form>
+    </center>
+{% endblock %}

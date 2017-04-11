@@ -1,0 +1,63 @@
+{% load staticfiles %}
+
+<html>
+    <head>
+        {% include 'base_head.html' %}
+        
+        {% block additional_css %}{% endblock %}
+        
+        <title>Yurjin-тур :: {% block title %}{% endblock %}</title>
+    </head>
+    <body>
+        <div id="header">
+	            <div style="float: left; width: 30%; height: 100px; align:left ;">
+	                {% if messages %}
+                        {% for message in messages %}
+                            {{ message }}
+                        {% endfor %}
+                    {% endif %}
+	            </div>
+	            <div style="float: left; width: 40%; height: 100px;"><img src="{% static "images/sitelogo.png" %}" alt="SiteLogo"  height=100/></div>
+	            <div style="float: left; width: 30%; height: 100px;"  align="right">
+	                {% if user.is_authenticated %}
+	                    Добро пожаловать, <strong><a href="{% url 'yurjin_journal:profile_edit' %}" title="Изменить профиль">{{user.manager}}</a></strong>. <a href="{% url 'yurjin_journal:logout' %}">Выход</a>
+	                {% endif %}
+	            </div>
+        </div>
+    <div id="leftmenu">
+        <ul>
+            <li><a href="{% url 'yurjin_main:index' %}">Главная</a>
+            <li><a href="{% url 'yurjin_journal:index' %}">YurJango</a>
+                {% if user.is_authenticated %}
+                <ul>
+                    <!-- <li><a href="{% url 'yurjin_journal:contract_archive' %}">Договоры</a></li> -->
+                    <li><a href="{% url 'yurjin_journal:index' %}">Договоры</a>
+                    <li><a href="{% url 'yurjin_journal:tourist_list' %}">Туристы</a></li>
+                    <li><a href="{% url 'yurjin_journal:payment_list' %}">Платежи</a></li>
+                    <li><a href="{% url 'yurjin_reports:index' %}">Отчеты</a></li>
+                </ul>
+                {% endif %}
+            <!-- <li><a href="{% url 'admin:index' %}">Админка</a> -->
+        </ul>
+    </div>
+    <div id="main">
+
+        {% if is_paginated and paginator.num_pages > 1 %}
+            {% include 'pagination.html' %}
+        {% endif %}
+        
+        {% block content %}
+        
+        {% endblock %}
+    </div>
+            
+            
+{% block footer %}{% endblock %}
+    <div id="footer">
+        <p>Все права принадлежат разработчикам сайта.</p>
+        
+
+        
+    </div>
+</body>
+</html>

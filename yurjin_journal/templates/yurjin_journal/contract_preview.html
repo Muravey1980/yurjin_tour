@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Просмотр договора{% endblock %}
+{% block content %}
+Просмотр договора №
+{{contract.contract_num}}
+<table>
+    <tr>
+        <td>Отдыхаем</td>
+        <td>с {{contract.tour_begin_date}}</td>
+        <td>по {{contract.tour_finish_date}}</td>
+        <td></td>
+    </tr>
+</table>
+
+<ul class="errorlist nonfield">Здесь будут видны результаты проверок:
+{% for warning in contract.get_warnings %}
+    <li>{{warning}}</li>
+{% endfor %}
+</ul>
+ 
+    {% if contract.is_printable %}
+        <a href="{% url 'yurjin_journal:contract_print' contract.id %}">Распечатать</a></td>
+    {% endif %}    
+
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}Изменение платежа{% endblock %}
+{% block additional_css %}
+{% endblock %}
+
+{% block content %}
+    <form action="" method="post">
+        <table>
+        {% include 'form.html' %}
+        </table>
+        <input type="submit" value="Сохранить" />
+    </form>
+{% endblock %}
+{% block footer %}
+    
+{% endblock %}

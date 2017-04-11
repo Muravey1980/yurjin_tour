@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}Изменение договора{% endblock %}
+{% block additional_css %}
+    {# {{ form.media }} #}
+{% endblock %}
+
+{% block content %}
+    <form action="" method="post">
+        <table>
+        <tr><th>Номер договора</th><td>{{ contract.contract_num }}</td></tr>
+        {% include 'form.html' %}
+        {# {% csrf_token %} #}
+        {# {{ form.as_table }} #}
+        </table>
+        <input type="submit" value="Сохранить" />
+    </form>
+{% endblock %}
+{% block footer %}
+    
+{% endblock %}

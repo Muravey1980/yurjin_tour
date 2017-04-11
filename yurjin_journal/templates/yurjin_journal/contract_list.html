@@ -1,0 +1,51 @@
+    {% include "yurjin_journal/filter_form.html" %}
+    {% if perms.yurjin_journal.add_contract %}<a href="{% url 'yurjin_journal:contract_add' %}" class="addlink">Добавить Договор</a>{% endif %}
+    {% if contract_list %}
+        <table style="contract_grid">
+        {% if month %}
+            <th>Договоры  за {{month|date:'F Y'}}</th>
+        {% endif %}
+            <tr>
+                <!-- <th>Статус</th> -->
+                <!-- <th>Оплата</th> -->
+                <th>Договор</th>
+                <th>Менеджер</th>
+                <th>Офис</th>
+                <th>Изменить</th>
+                <th>Удалить</th>
+                <th>Распечатать</th>
+                <th></th>
+            </tr>
+            {% for contract in contract_list %}
+                <!-- <tr {% if contract.get_payment_sum > 0 or contract.contract_sum == 0 %} class="unpaid"{% endif %} > -->
+                <tr class="{{ contract.get_status.status_name }}">
+                    <!-- <td>{{ contract.status }}</td> -->
+                    <!-- <td>{{ contract.get_status }}</td> -->
+                    <td>{{ contract }}</td>
+                    <!-- <td>{{ contract.contract_sum }}</td> -->
+                    <!-- <td>{{ contract.prepayment_sum }}</td> -->
+                    <td>{{ contract.manager }}</td>
+                    <td>{{ contract.office }}</td>
+                    
+                    <td>
+                        {% if perms.yurjin_journal.change_contract and contract.is_editable %}
+                            <a href="{% url 'yurjin_journal:contract_edit' contract.id %}">Изменить</a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if perms.yurjin_journal.delete_contract and contract.is_deletable %}
+                            <a href="{% url 'yurjin_journal:contract_delete' contract.id %}">Удалить</a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if contract.is_printable %}
+                            <a href="{% url 'yurjin_journal:contract_preview' contract.id %}">Распечатать</a></td>
+                        {% endif %}    
+                </tr>
+            {% empty %}
+                <p>No contracts are available.</p>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No contracts are available.</p>
+    {% endif %}

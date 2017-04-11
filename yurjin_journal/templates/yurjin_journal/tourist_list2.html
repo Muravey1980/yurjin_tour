@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Туристы{% endblock %}
+
+{% block content %}
+{{ formset.media }}
+    <form method="post" action="">
+        {% csrf_token %}
+        {{ formset.management_form }}
+        {% for form in formset %}
+            {{ form.as_p }}
+        {% endfor %}
+        <input type="submit" value="Сохранить">
+    </form>
+{% endblock %}

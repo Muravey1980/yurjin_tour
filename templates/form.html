@@ -1,0 +1,42 @@
+{% block additional_css %}
+    {{ form.media }}
+{% endblock %}
+
+{% csrf_token %}
+
+{% if form.non_field_errors %}
+    <tr>
+        {% for non_field_error in form.non_field_errors %}
+            <td colspan="2"><ul class="errorlist nonfield"><li> {{ non_field_error }}</li></ul></td>
+        {% endfor %}
+    </tr>  
+{% endif %}    
+{% for field in form.hidden_fields %}
+  {{ field }}
+{% endfor %}
+{% for field in form.visible_fields %}
+  <tr>
+      <th>
+          {{ field.label }}   
+      </th>
+      <td>
+          {{ field }}
+          {% if field.errors|length > 0 %}
+              <div class="error-list">
+                  {% for error in field.errors %}
+                      <div class="error-description">{{ error }}</div>
+                  {% endfor %}
+              </div>
+          {% endif %} 
+          
+          {% if field.help_text %}
+              <div class="help">{{ field.help_text }}</div>
+          {% endif %}
+          
+          {% if field.name == "contract_sum" %}
+              {% include 'yurjin_journal/contract_payments.html' %}
+          {% endif %}    
+        </a>
+      </td>
+  </tr>
+{% endfor %}

@@ -1,0 +1,18 @@
+{% if contract %}
+<div class="help">
+    <table class="help">
+        <tr><th>Платежи по договору:</th></tr>
+            {% for payment in contract.payment_set.all %}
+                <tr><td>{{ payment.payment_date }}</td><td>{{ payment.payment_sum }}</td><td>{% if perms.yurjin_journal.delete_payment and payment.is_deletable %}<a href="{% url 'yurjin_journal:payment_delete' payment.id %}">Удалить</a>{% endif %}</td></tr>
+            {% empty %}
+                <tr><td>Платежей по этому договору не найдено.</td></tr>
+            {% endfor %}
+            {% if contract.get_remain_payment_sum == 0 %}
+                <tr><th colspan=2>Оплачено полностью.</th></tr>
+            {% else %}
+                <tr><th colspan=2>Итого оплачено: {{ contract.get_all_payments_sum }} рублей.</th></tr>
+                <tr><th colspan=2>Итого к оплате: {{ contract.get_remain_payment_sum }} рублей.</th><th><a href="{% url 'yurjin_journal:payment_add' %}?contract_id={{ contract.id }}" class="addlink">Внести платеж</a></th></tr>
+            {% endif %}
+    </table>   
+</div>
+{% endif %}

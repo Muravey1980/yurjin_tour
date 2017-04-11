@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Платежи{% endblock %}
+
+{% block content %}
+    <a href="{% url 'yurjin_journal:payment_add' %}" class="addlink">Внести платеж</a>
+    {% if payment_list %}
+        <table>
+        {% for payment in payment_list %}
+            <tr class="{{ contract.status.status_name }}">
+                <td>{{ payment }}</td>
+                <td>{{ payment.manager }}</td>
+                <td>{{ payment.office }}</td>
+                
+                <td><a href="{% url 'yurjin_journal:payment_print' payment.id %}">Распечатать</a></td>
+                <td>{% if perms.yurjin_journal.delete_payment and payment.is_deletable %}<a href="{% url 'yurjin_journal:payment_delete' payment.id %}">Удалить</a>{% endif %}</td>
+            </tr>
+        {% endfor %}
+        </table>
+    {% endif %}
+{% endblock %}

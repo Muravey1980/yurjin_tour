@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Отчеты{% endblock %}
+
+{% block content %}
+Отчет за период с {{date_from}} по {{ date_to }}
+
+{%for contract in contract_list %}
+    {{ contract }} - {{ contract.tourist_count }}<br>
+{% endfor %}
+
+{%for office in office_list %}
+    {{ office }} - {{ office.total_count }} - {{ office.total_sum }}<br>
+{% endfor %}
+
+<table>
+<tr><th>Офис</th><th>Менеджер</th><th>Количество</th><th>Сумма</th></tr>
+{%for manager in manager_list %}
+    <tr>
+        <td>{{ manager.office }}</td><td>{{ manager }}</td><td>{{ manager.total_count }}</td><td>{{ manager.total_sum }}</td>
+    </tr>
+{% endfor %}
+</table>
+{% endblock %}
