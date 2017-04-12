@@ -8,6 +8,9 @@ from django.utils import timezone
 from math import modf
 
 from number_to_text import num2text
+from _datetime import timezone
+from reportlab.platypus.paragraph import strip
+from symbol import except_clause
 
 
 class Entity(models.Model):
@@ -192,7 +195,17 @@ class Tourist(Person):
     phone = models.CharField(blank=True, max_length=50, verbose_name="Телефон")
     email = models.EmailField(blank=True, null=True, verbose_name="e-mail")
     address = models.CharField(blank=True, max_length=200, verbose_name="Адрес")
-
+    
+    def get_warnings(self):
+        warnings=[]
+        if strip(self.last_name)=='' or strip(self.first_name) == '' or strip(self.mid_name)=='':
+            warnings.append('Не заполнены ФИО')
+        if strip(self.passport_num)=='' and strip(self.international_passport)=='':
+            warnings.append('Не указан ни один документ')
+        if self.birthdate == None:
+            warnings.append('Не указана дата рождения')
+        return warnings
+        
 
 class Contract(models.Model):
     class Meta:
@@ -236,21 +249,24 @@ class Contract(models.Model):
     full_pay_date = models.DateField(blank=True, null=True, verbose_name="Дата полной оплаты")
     
     operator_sum = models.DecimalField(max_digits=8, decimal_places=2, default=0, null=True, verbose_name="Сумма оператору")
-    
+
+    def save(self, *args, **kwargs):
+        self.status=self.get_status()
+        super(Contract, self).save(*args, **kwargs)
+        
     def __str__(self):
         return 'Договор №' + self.contract_date.strftime('%m%y') + '-' + str(self.contract_num) + ' от ' + str(self.contract_date) + ' - ' + str(self.client)
     
     def is_printable(self):
-        result = False 
-        if (self.get_prepayment_sum() > 0):
-            result = True
-        #result = True
-        #self.status.status_name=='signed' and 
+        result = True
+        if (self.get_prepayment_sum() <= 0):
+            result = False
         return result
     
     def is_deletable(self):
         result=True
-        if self.status.status_name=='closed' or self.payment_set.count()>0:
+        if (self.status.status_name=='closed'
+            or self.payment_set.count()>0): 
             result = False
         return result
     
@@ -333,10 +349,21 @@ class Contract(models.Model):
         #            contract_class = "closed"
         return Status.objects.get(status_name=contract_class)
     
+    #def is_important(self):
+    #    if (self.confirm_date == None
+    #        or (self.confirm_date and self.tour_begin_date-timezone.today()<=14) 
+    #        or self.doc_issue_date == None):
+    #        result=True
+    #    return result   
+    
     def get_warnings(self):
         warnings=[]
-        warnings.append('Шо-та не так')
-        warnings.append('Шо-та ваще не так')
+        #warnings.append('Шо-та не так')
+        #warnings.append('Шо-та ваще не так')
+        #warnings.append(self.client.get_warnings())
+        
+        #for tourist in self.tourist_list:
+        #    warnings.append(tourist.get_warnings())
         
         return warnings 
         
@@ -364,6 +391,17 @@ class Payment(models.Model):
     payment_method = models.ForeignKey(PaymentMethod, on_delete = models.PROTECT, verbose_name="Форма оплаты")
     payment_date = models.DateTimeField(auto_now_add=True, editable = False, verbose_name="Дата внесения")
     payment_sum = models.DecimalField(max_digits=8, decimal_places=2, default=0, verbose_name="Сумма платежа")
+    
+    def save(self, *args, **kwargs):
+        super(Payment, self).save(*args, **kwargs)
+        #self.contract.status=self.contract.get_status()
+        self.contract.save(update_fields=['status'])
+    
+    def delete(self, *args, **kwargs):
+        super(Payment, self).delete(*args, **kwargs)
+        #self.contract.status=self.contract.get_status()
+        self.contract.save(update_fields=['status'])
+        
     
     def is_deletable(self):
         result=True

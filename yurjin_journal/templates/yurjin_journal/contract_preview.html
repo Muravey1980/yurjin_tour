@@ -1,23 +1,41 @@
 {% extends 'base.html' %}
 {% block title %}Просмотр договора{% endblock %}
 {% block content %}
-Просмотр договора №
-{{contract.contract_num}}
 <table>
+    <tr><td colspan=4>Просмотр договора № {{contract.contract_num}}</td></tr>
+    <tr><td colspan=4>Направление: {{contract.resort}}, {{contract.resort.country}}</td></tr>
     <tr>
-        <td>Отдыхаем</td>
+        <td>Даты поездки</td>
         <td>с {{contract.tour_begin_date}}</td>
         <td>по {{contract.tour_finish_date}}</td>
         <td></td>
     </tr>
+    <tr>
+        <td>Даты проживания в отеле</td>
+        <td>с {{contract.hotel_begin_date}}</td>
+        <td>по {{contract.hotel_finish_date}}</td>
+        <td>{{contract.get_hotel_nights}} ночей</td>
+    </tr>
 </table>
 
-<ul class="errorlist nonfield">Здесь будут видны результаты проверок:
+<ul class="errorlist nonfield">Результаты проверок:
 {% for warning in contract.get_warnings %}
     <li>{{warning}}</li>
+    {% empty %}
+    
 {% endfor %}
-</ul>
- 
+{% for tourist in contract.tourist_list.all %}
+    <li>{% for warning in tourist.get_warnings %}
+            <li>{{tourist}} - {{warning}}</li>
+            {% empty %}
+            
+        {% endfor %}
+    </li>
+    
+    
+{% endfor %}
+
+</ul> 
     {% if contract.is_printable %}
         <a href="{% url 'yurjin_journal:contract_print' contract.id %}">Распечатать</a></td>
     {% endif %}    

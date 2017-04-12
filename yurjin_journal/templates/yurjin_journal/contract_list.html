@@ -6,7 +6,7 @@
             <th>Договоры  за {{month|date:'F Y'}}</th>
         {% endif %}
             <tr>
-                <!-- <th>Статус</th> -->
+                <th>Статус</th>
                 <!-- <th>Оплата</th> -->
                 <th>Договор</th>
                 <th>Менеджер</th>
@@ -19,7 +19,7 @@
             {% for contract in contract_list %}
                 <!-- <tr {% if contract.get_payment_sum > 0 or contract.contract_sum == 0 %} class="unpaid"{% endif %} > -->
                 <tr class="{{ contract.get_status.status_name }}">
-                    <!-- <td>{{ contract.status }}</td> -->
+                    <td>{{ contract.status }}</td>
                     <!-- <td>{{ contract.get_status }}</td> -->
                     <td>{{ contract }}</td>
                     <!-- <td>{{ contract.contract_sum }}</td> -->

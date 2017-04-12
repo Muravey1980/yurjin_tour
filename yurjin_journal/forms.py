@@ -20,7 +20,7 @@ from django.core.exceptions import ValidationError
 from django import forms
 from django.contrib.admin import widgets
 from dal import autocomplete
-from .models import Contract, Tourist, Manager, Payment, Status #, PaymentMethod
+from .models import Contract, Tourist, Manager, Payment, Resort    #, Status #, PaymentMethod
 
 
 class ContractForm(forms.ModelForm):
@@ -202,5 +202,17 @@ class ProfileForm(forms.ModelForm):
         model = Manager
         fields = ['last_name', 'first_name', 'mid_name', 'full_name_r']
 
+
+class ResortForm(forms.ModelForm):
+    class Meta:
+        model = Resort
+        fields = [
+                'country',
+                'resort_name'
+                ]
+        
+        widgets = {
+            'country': autocomplete.ModelSelect2(),
+            }
 
 #PaymentFormset = modelformset_factory(Payment, form=PaymentForm,can_delete=True)

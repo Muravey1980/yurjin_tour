@@ -1,5 +1,10 @@
 {% csrf_token %}
 <form action="" method="get">
-    <input type="text", id="filter", name="filter", value="{{ filter }}">
+    <input type="text", id="q", name="q", value="{{ q }}">
     <input type="submit" value="Фильтровать">
+    {% if contract_list %}
+        <a href="?is_important=1{% if paginate_by %}&paginate_by={{ paginate_by }}{% endif %}{% if q %}&q={{ q }}{% endif %}"> Только важные</a>
+        |
+        <a href="?{% if paginate_by %}&paginate_by={{ paginate_by }}{% endif %}{% if q %}&q={{ q }}{% endif %}"> Все</a>
+    {% endif %}
 </form>

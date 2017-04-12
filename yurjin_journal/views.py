@@ -17,9 +17,39 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 from dal import autocomplete
 
-from .models import Contract, Tourist, Manager, Payment, PaymentMethod
+from .models import Contract, Tourist, Manager, Payment, PaymentMethod, Resort
 from common.views import FilteredAndSortedView
 from . import forms
+
+class ResortListView(generic.ListView):
+    model = Resort
+    #queryset=Resort.objects.all()
+
+class ResortCreateView(SuccessMessageMixin,generic.CreateView):    
+    template_name = 'yurjin_journal/resort_edit.html'
+    model = Resort
+    form_class=forms.ResortForm
+    success_url = reverse_lazy('yurjin_journal:resort_list')
+    success_message = "Курорт успешно добавлен"       
+
+
+class ResortUpdateView(SuccessMessageMixin,generic.UpdateView):
+    template_name = 'yurjin_journal/resort_edit.html'
+    model = Resort
+    form_class=forms.ResortForm
+    success_url = reverse_lazy('yurjin_journal:resort_list')
+    success_message = "Курорт успешно изменен"        
+
+
+class ResortDeleteView(generic.DeleteView):
+    model = Resort
+    template_name = "yurjin_journal/resort_delete.html"
+    success_url = reverse_lazy('yurjin_journal:resort_list')
+    success_message = "Курорт успешно удален"   
+    
+
+
+
 
 class PaymentListView(generic.ListView):
     template_name = 'yurjin_journal/payment_list.html'
@@ -184,13 +214,10 @@ class ContractPreview(generic.DetailView):
 class ContractPrintView(generic.DetailView):
     model = Contract
     template_name = 'yurjin_journal/contract_print.html'
-    
-    #def get_queryset(self):
-    #   return Contract.objects.filter(contract_date__lte=timezone.now())
 
 
 
-    
+
 
 class TouristList(autocomplete.Select2QuerySetView):
     def get_queryset(self):
@@ -247,50 +274,3 @@ class ProfileUpdateView(SuccessMessageMixin,generic.UpdateView):
     success_url = reverse_lazy('yurjin_journal:index')
     success_message = "Профиль успешно изменен"
 
-
-
-     
-"""
-Закомментировано в связи с тем, что пока не используется
-
-class ContractPdfPrint(generic.TemplateView): 
-    template_name = "yurjin_journal/contract_print.html"
-
-
-class PaymentListEditView(generic.TemplateView):
-    template_name="yurjin_journal/payment_list_edit.html"   
-    
-    def get_context_data(self, **kwargs):
-        context = super(PaymentListView, self).get_context_data(**kwargs)
-        if self.request.POST:
-            context['formset'] = forms.PaymentFormset(self.request.POST)
-        else:
-            context['formset'] = forms.PaymentFormset()
-        return context
-    
-    def form_valid(self, form):
-        context = self.get_context_data()
-        payment_form = context['formset']
-        if payment_form.is_valid():
-            self.object = form.save()
-            payment_form.instance = self.object
-            payment_form.save()
-            return HttpResponseRedirect('thanks/')
-        else:
-            return self.render_to_response(self.get_context_data(form=form))
-
-
-
-
-class IndexView(generic.ListView):
-    template_name = 'yurjin_journal/index.html'
-    model = Contract
-    #context_object_name = 'latest_contract_list'
-    paginate_by = 10
-    #if (get(page)==None): page=1
-
-    def get_queryset(self):
-        return Contract.objects.filter(contract_date__lte=timezone.now()).order_by('-contract_date','-contract_num')
-        
-
-"""

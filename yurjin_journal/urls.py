@@ -41,6 +41,13 @@ urlpatterns = [
     url(r'^tourist/(?P<pk>[0-9]+)/delete/$', permission_required('yurjin_journal.delete_contract')(views.TouristDeleteView.as_view()),name = 'tourist_delete'),
     
     
+    #Курорты
+    url(r'^resorts/$', login_required(views.ResortListView.as_view()), name='resort_list'),
+    url(r'^resort/add/$', permission_required('yurjin_journal.add_resort')(views.ResortCreateView.as_view()),name = 'resort_add'),
+    url(r'^resort/(?P<pk>[0-9]+)/edit/$', permission_required('yurjin_journal.change_resort')(views.ResortUpdateView.as_view()), name='resort_edit'),
+    url(r'^resort/(?P<pk>[0-9]+)/delete/$', permission_required('yurjin_journal.delete_resort')(views.ResortDeleteView.as_view()),name = 'resort_delete'),
+    
+    
     #Платежи
     url(r'^payments/$', login_required(views.PaymentListView.as_view()), name='payment_list'),
     #url(r'^payment/add/(?:\?contract_id=(?P<contract_id>\d+))?$', permission_required('yurjin_journal.add_payment')(views.PaymentCreateView.as_view()),name = 'payment_add'),
