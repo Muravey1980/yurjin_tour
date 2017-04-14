@@ -23,7 +23,6 @@ from . import forms
 
 class ResortListView(generic.ListView):
     model = Resort
-    #queryset=Resort.objects.all()
 
 class ResortCreateView(SuccessMessageMixin,generic.CreateView):    
     template_name = 'yurjin_journal/resort_edit.html'
@@ -145,7 +144,7 @@ class ContractCreateView(SuccessMessageMixin,generic.CreateView):
         form.instance.office = self.request.user.manager.office
         form.instance.signatory = self.request.user.manager.office.tour_agency.director
         form.instance.contract_num = self.get_num()
-        form.instance.status = form.instance.get_status()
+        #form.instance.status = form.instance.get_status()
         
         return super(ContractCreateView, self).form_valid(form)    
   
@@ -177,7 +176,7 @@ class ContractUpdateView(SuccessMessageMixin,generic.UpdateView):
     success_message = "Договор успешно изменен"        
 
     def form_valid(self, form):
-        form.instance.status = form.instance.get_status()
+        #form.instance.status = form.instance.get_status()
         
         return super(ContractUpdateView, self).form_valid(form)
 
@@ -212,12 +211,25 @@ class ContractPreview(generic.DetailView):
     template_name = 'yurjin_journal/contract_preview.html'
 
 class ContractPrintView(generic.DetailView):
+
     model = Contract
     template_name = 'yurjin_journal/contract_print.html'
+    
 
-
-
-
+    #def get(self, request, *args, **kwargs):
+        #self.print_form=self.request.GET['print_form']
+        
+        #return super(ContractPrintView, self).get(request, *args, **kwargs)
+    
+    #def get_context_data(self, **kwargs):
+        #context=super(ContractPrintView,self).get_context_data(**kwargs)
+        #context['print_form']=self.print_form
+        
+        #return context
+    
+    
+    
+    
 
 class TouristList(autocomplete.Select2QuerySetView):
     def get_queryset(self):

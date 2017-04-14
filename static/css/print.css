@@ -22,3 +22,13 @@
 	margin-top: 0em; /* Отступ сверху */
     margin-bottom: 0em; /* Отступ снизу */
 }
+
+br.new_page{page-break-after: always;}
+
+#act{
+	font-size: 9pt
+}
+
+#act h1{
+	text-align: center;
+}

@@ -76,8 +76,12 @@
 , срок нахождения в отеле {{contract.get_hotel_nights}} ночей.
 <p>2.2.3. Трансфер (перевозка наземным транспортом)
 {{ contract.tour_operator.transfer|yesno:"Да,Нет" }}
-<p>2.2.4. Экскурсионная программа
-{{ contract.excursion|yesno:"Да,Нет" }}
+<p>2.2.4. Экскурсионная программа:
+{% if contract.excursions %}
+    {{contract.excursions|linebreaks}}
+{% else %}
+    Нет
+{% endif %}
 <p>2.2.5. Встреча и проводы с русскоговорящим гидом
 {{ contract.russian_guide|yesno:"Да,Нет" }}
 <p>2.2.6. Визовая поддержка
@@ -87,9 +91,10 @@
 . Страхование от невозможности совершения поездки или прерывания ее (страховка от невыезда)
 {{ contract.non_departure_insurance|yesno:"Да,Нет" }}
 . Последствия не приобретения страховки от невыезда, а также наступления последствий действий третьих лиц, за которые ни одна из сторон не отвечает, Клиенту разъяснены.</p>
-<p>2.2.8. Дополнительные услуги
-{{ contract.tour_operator.tourpom_member|yesno:"Да,Нет" }}</p>
-<p>2.3. Цена Договора составляет  {{contract.get_contract_sum_string}}.</p>
+<p>2.2.8. Страховка визового риска 
+{{ contract.visa_risk_insurance|yesno:"Да,Нет" }}</p>
+
+<p>2.3. Цена Договора составляет {{contract.get_contract_sum_string}}.</p>
 <p>Во всем остальном Исполнитель и Клиент руководствуются законодательством РФ.</p>
 <h2>3. ОБЯЗАННОСТИ КЛИЕНТА</h2>
 <p>Клиент обязуется:
@@ -151,6 +156,54 @@
 <p>7.5. В случаях, не предусмотренных настоящим договором, применяется Гражданский кодекс РФ.
 <p>7.6. Настоящий договор  подписано в 2 (двух) экземплярах, по одному для каждой из Сторон.
 <h2>8. РЕКВИЗИТЫ И ПОДПИСИ СТОРОН</h2>
+<table width="100%">
+<tr>
+    <td width="50%">
+        ИСПОЛНИТЕЛЬ: {{contract.office.tour_agency.short_name}}<br>
+        ИНН/КПП: {{contract.office.tour_agency.inn}}/{{contract.office.tour_agency.kpp}}<br>
+        Р/счет: {{contract.office.tour_agency.account}}<br>
+        К/счет: {{contract.office.tour_agency.corr_account}}<br>
+        Юр. адрес: {{contract.office.tour_agency.post_address}}<br>
+        Факт. адрес: {{contract.office.tour_agency.fact_address}}<br>
+        Тел.: {{contract.office.tour_agency.phone}}<br>
+        E-mail: {{contract.office.tour_agency.email}}<br>
+        <br><br>
+        
+        Директор:________________________/{{contract.office.tour_agency.director.get_fio}}/
+    </td>
+    <td>
+        КЛИЕНТ: {{contract.client.get_full_name}}<br>
+        Паспорт: {{contract.client.passport_num}}<br>
+        Выдан: {{contract.client.passport_date}} {{contract.client.passport_issued_by}}<br>
+        Адрес: {{contract.client.address}}<br>
+        Телефон: {{contract.client.phone}}<br>
+        E-mail: {{contract.client.email}}<br>
+        С условиями договора, правилами аннуляции, программой тура, условиями мед. страхования ознакомлен, памятку туриста получил:<br>
+        <br><br>
+        ________________________/{{contract.client.get_fio}}/
+    </td>
+</tr>
+</table>
+</div>
+
+<br class="new_page">
+<div id="act">
+    Приложение №1
+    <h1>АКТ<br>ОБ ОКАЗАНИИ УСЛУГ</h1>
+<p>ИСПОЛНИТЕЛЬ
+{{contract.office.tour_agency.full_name}}
+, в лице Директора
+{{contract.signatory.full_name_r}}
+и КЛИЕНТ 
+{{contract.client.get_full_name}}
+, настоящим актом подтверждают, что исполненные услуги соответствуют условиям договора №
+{{contract.contract_date|date:"my" }}-{{contract.contract_num}}
+от {{contract.contract_date}} 
+<p>Взаиморасчеты произведены в сумме {{contract.get_contract_sum_string}}. Стороны друг к другу претензий не имеют.
+<p>Настоящий акт составлен в двух экземплярах.
+
+<p>Документы получил _____________________ / {{contract.client.get_full_name}} / {{contract.doc_issue_date}} г.
+<br><br>
 <table width="100%">
 <tr>
     <td width="50%">

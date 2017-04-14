@@ -1,16 +1,17 @@
+#from django.utils import timezone
+#from _datetime import timezone
+#from reportlab.platypus.paragraph import strip
+#from symbol import except_clause
 
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from django.utils import timezone
 from math import modf
-
 from number_to_text import num2text
-from _datetime import timezone
-from reportlab.platypus.paragraph import strip
-from symbol import except_clause
+
+
 
 
 class Entity(models.Model):

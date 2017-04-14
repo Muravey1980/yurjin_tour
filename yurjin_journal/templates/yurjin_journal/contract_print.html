@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 {% block title %}Печать договора{% endblock %}
 {% block content %}
-    {% include 'yurjin_journal/contract_print_form.html' %}
+    {#{% if print_form == "act" %}#}
+        {#{% include 'yurjin_journal/act_print_form.html' %}#}
+    {#{% else %}#}
+        {% include 'yurjin_journal/contract_print_form.html' %}
+    {#{% endif %}#}
 {% endblock %}
