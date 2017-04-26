@@ -110,6 +110,17 @@ class ContractForm(forms.ModelForm):
             if cleaned_data['tour_finish_date'] < cleaned_data['hotel_finish_date']:
                 raise ValidationError('Дата окончания тура не может быть меньше даты выезда из отеля',code = 'invalid')
         
+        if cleaned_data['tour_begin_date'] and cleaned_data['confirm_date']:    
+            if cleaned_data['tour_begin_date'] < cleaned_data['confirm_date']:
+                raise ValidationError('Дата начала тура не может быть меньше даты подтверждения тура',code = 'invalid')
+        #if cleaned_data['doc_issue_date'] and cleaned_data['confirm_date']:    
+        #    if cleaned_data['doc_issue_date'] < cleaned_data['confirm_date']:
+        #        raise ValidationError('Дата выдачи документов не может быть меньше даты подтверждения тура',code = 'invalid')
+        #if cleaned_data['tour_begin_date'] and cleaned_data['full_pay_date']:    
+        #    if cleaned_data['tour_begin_date'] < cleaned_data['full_pay_date']:
+        #        raise ValidationError('Дата начала тура не может быть меньше даты полной оплаты',code = 'invalid')
+        
+        
         if cleaned_data['client'] == None:
             raise ValidationError('Не заполнено поле "клиент"',code = 'invalid')
         if cleaned_data['tourist_list'].count() == 0:

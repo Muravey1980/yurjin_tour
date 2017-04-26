@@ -2,9 +2,6 @@
     {% if perms.yurjin_journal.add_contract %}<a href="{% url 'yurjin_journal:contract_add' %}" class="addlink">Добавить Договор</a>{% endif %}
     {% if contract_list %}
         <table style="contract_grid">
-        {% if month %}
-            <th>Договоры  за {{month|date:'F Y'}}</th>
-        {% endif %}
             <tr>
                 <th>Статус</th>
                 <!-- <th>Оплата</th> -->

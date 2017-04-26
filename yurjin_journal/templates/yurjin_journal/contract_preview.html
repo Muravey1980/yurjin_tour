@@ -37,7 +37,10 @@
 
 </ul> 
     {% if contract.is_printable %}
-        <a href="{% url 'yurjin_journal:contract_print' contract.id %}">Распечатать</a></td>
+        <a href="{% url 'yurjin_journal:contract_print' contract.id %}?print_form=contract">Распечатать договор</a></td>
+    {% endif %}
+    
+    {% if contract.doc_issue_date %}
+        <a href="{% url 'yurjin_journal:contract_print' contract.id %}?print_form=act">Распечатать акт</a></td>
     {% endif %}    
-
 {% endblock %}

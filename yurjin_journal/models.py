@@ -199,9 +199,9 @@ class Tourist(Person):
     
     def get_warnings(self):
         warnings=[]
-        if strip(self.last_name)=='' or strip(self.first_name) == '' or strip(self.mid_name)=='':
+        if self.last_name.strip()=='' or self.first_name.strip() == '' or self.mid_name.strip()=='':
             warnings.append('Не заполнены ФИО')
-        if strip(self.passport_num)=='' and strip(self.international_passport)=='':
+        if self.passport_num.strip()=='' and self.international_passport.strip()=='':
             warnings.append('Не указан ни один документ')
         if self.birthdate == None:
             warnings.append('Не указана дата рождения')
@@ -256,7 +256,7 @@ class Contract(models.Model):
         super(Contract, self).save(*args, **kwargs)
         
     def __str__(self):
-        return 'Договор №' + self.contract_date.strftime('%m%y') + '-' + str(self.contract_num) + ' от ' + str(self.contract_date) + ' - ' + str(self.client)
+        return '№' + self.contract_date.strftime('%m%y') + '-' + str(self.contract_num) + ' от ' + str(self.contract_date)
     
     def is_printable(self):
         result = True

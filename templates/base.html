@@ -1,5 +1,4 @@
 {% load staticfiles %}
-
 <html>
     <head>
         {% include 'base_head.html' %}
@@ -30,7 +29,6 @@
             <li><a href="{% url 'yurjin_journal:index' %}">YurJango</a>
                 {% if user.is_authenticated %}
                 <ul>
-                    <!-- <li><a href="{% url 'yurjin_journal:contract_archive' %}">Договоры</a></li> -->
                     <li><a href="{% url 'yurjin_journal:index' %}">Договоры</a>
                     <li><a href="{% url 'yurjin_journal:tourist_list' %}">Туристы</a></li>
                     <li><a href="{% url 'yurjin_journal:resort_list' %}">Курорты</a></li>

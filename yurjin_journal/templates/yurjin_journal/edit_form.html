@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% load my_filters %}
 
-{% block title %}Изменение данных туриста{% endblock %}
-
-{% block additional_css %}{% endblock %}
+{% block title %}Изменение объекта: {{ form.instance|verbose_name }} {% endblock %}
 
 {% block content %}
-Изменение данных {{ form.instance }}
+<h2>Изменение объекта</h2>
+<h4>{{ form.instance|verbose_name }} {{ object }}</h4>
     <form action="" method="post">
         <table>
             {% include 'form.html' %}
@@ -14,5 +14,3 @@
         <input type="submit" value="Сохранить" />
     </form>
 {% endblock %}
-
-{% block footer %}{% endblock %}

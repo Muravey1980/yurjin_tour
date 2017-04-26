@@ -22,9 +22,9 @@ urlpatterns = [
     
     #Договоры
     url(r'^$', login_required(views.ContractListView.as_view()), name='index'),    
-    url(r'^contracts/$', login_required(views.ContractArchiveIndexView.as_view()), name='contract_archive'),
-    url(r'^contracts/(?P<year>[0-9]{4})/$', login_required(views.ContractYearArchiveView.as_view()), name='contract_archive_year'),
-    url(r'^contracts/(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/$', login_required(views.ContractMonthArchiveView.as_view()), name='contract_archive_month'),
+    #url(r'^contracts/$', login_required(views.ContractArchiveIndexView.as_view()), name='contract_archive'),
+    #url(r'^contracts/(?P<year>[0-9]{4})/$', login_required(views.ContractYearArchiveView.as_view()), name='contract_archive_year'),
+    #url(r'^contracts/(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/$', login_required(views.ContractMonthArchiveView.as_view()), name='contract_archive_month'),
     
     url(r'^contract/add/$', permission_required('yurjin_journal.add_contract')(views.ContractCreateView.as_view()),name = 'contract_add'),
     url(r'^contract/(?P<pk>[0-9]+)/edit/$', permission_required('yurjin_journal.change_contract')(views.ContractUpdateView.as_view()), name='contract_edit'),

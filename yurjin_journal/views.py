@@ -25,7 +25,7 @@ class ResortListView(generic.ListView):
     model = Resort
 
 class ResortCreateView(SuccessMessageMixin,generic.CreateView):    
-    template_name = 'yurjin_journal/resort_edit.html'
+    template_name = 'yurjin_journal/edit_form.html'
     model = Resort
     form_class=forms.ResortForm
     success_url = reverse_lazy('yurjin_journal:resort_list')
@@ -33,7 +33,7 @@ class ResortCreateView(SuccessMessageMixin,generic.CreateView):
 
 
 class ResortUpdateView(SuccessMessageMixin,generic.UpdateView):
-    template_name = 'yurjin_journal/resort_edit.html'
+    template_name = 'yurjin_journal/edit_form.html'
     model = Resort
     form_class=forms.ResortForm
     success_url = reverse_lazy('yurjin_journal:resort_list')
@@ -42,7 +42,7 @@ class ResortUpdateView(SuccessMessageMixin,generic.UpdateView):
 
 class ResortDeleteView(generic.DeleteView):
     model = Resort
-    template_name = "yurjin_journal/resort_delete.html"
+    template_name = "yurjin_journal/delete_form.html"
     success_url = reverse_lazy('yurjin_journal:resort_list')
     success_message = "Курорт успешно удален"   
     
@@ -76,7 +76,7 @@ class PaymentListView(generic.ListView):
 
     
 class PaymentCreateView(generic.CreateView):
-    template_name = 'yurjin_journal/payment_edit.html'
+    template_name = 'yurjin_journal/edit_form.html'
     model = Payment    
     form_class=forms.PaymentForm
     success_url = reverse_lazy('yurjin_journal:payment_list')
@@ -114,7 +114,7 @@ class PaymentCreateView(generic.CreateView):
 
 class PaymentDeleteView(generic.DeleteView):
     model = Payment
-    template_name = "yurjin_journal/payment_delete.html"
+    template_name = "yurjin_journal/delete_form.html"
     success_url = reverse_lazy('yurjin_journal:payment_list')
 
     
@@ -148,7 +148,7 @@ class ContractCreateView(SuccessMessageMixin,generic.CreateView):
         
         return super(ContractCreateView, self).form_valid(form)    
   
-    template_name = 'yurjin_journal/contract_edit.html'
+    template_name = 'yurjin_journal/edit_form.html'
     model = Contract    
     initial = {
                 'contract_date': timezone.datetime.today(),
@@ -169,7 +169,7 @@ class ContractCreateView(SuccessMessageMixin,generic.CreateView):
 
 
 class ContractUpdateView(SuccessMessageMixin,generic.UpdateView):
-    template_name = 'yurjin_journal/contract_edit.html'
+    template_name = 'yurjin_journal/edit_form.html'
     model = Contract
     form_class=forms.ContractForm
     success_url = reverse_lazy('yurjin_journal:index')
@@ -183,27 +183,9 @@ class ContractUpdateView(SuccessMessageMixin,generic.UpdateView):
 
 class ContractDeleteView(generic.DeleteView):
     model = Contract
-    template_name = "yurjin_journal/contract_delete.html"
+    template_name = "yurjin_journal/delete_form.html"
     success_url = reverse_lazy('yurjin_journal:index')
     #success_message = "Договор успешно удален"
-        
-
-class ContractArchiveIndexView(generic.ArchiveIndexView):
-    model = Contract
-    date_field = 'contract_date'
-
-
-class ContractYearArchiveView(generic.YearArchiveView):
-    model = Contract
-    date_field = 'contract_date'
-    
-
-class ContractMonthArchiveView(generic.MonthArchiveView):
-    model = Contract
-    date_field = 'contract_date'
-    month_format = '%m' 
-    context_object_name = 'contract_list'
-    #template_name = 'yurjin_journal/contract_list.html'
 
 
 class ContractPreview(generic.DetailView):
@@ -216,16 +198,16 @@ class ContractPrintView(generic.DetailView):
     template_name = 'yurjin_journal/contract_print.html'
     
 
-    #def get(self, request, *args, **kwargs):
-        #self.print_form=self.request.GET['print_form']
+    def get(self, request, *args, **kwargs):
+        self.print_form=self.request.GET['print_form']
         
-        #return super(ContractPrintView, self).get(request, *args, **kwargs)
+        return super(ContractPrintView, self).get(request, *args, **kwargs)
     
-    #def get_context_data(self, **kwargs):
-        #context=super(ContractPrintView,self).get_context_data(**kwargs)
-        #context['print_form']=self.print_form
+    def get_context_data(self, **kwargs):
+        context=super(ContractPrintView,self).get_context_data(**kwargs)
+        context['print_form']=self.print_form
         
-        #return context
+        return context
     
     
     
@@ -246,7 +228,7 @@ class TouristListView(FilteredAndSortedView, generic.ListView):
 
 
 class TouristCreateView(SuccessMessageMixin,generic.CreateView):    
-    template_name = 'yurjin_journal/tourist_edit.html'
+    template_name = 'yurjin_journal/edit_form.html'
     model = Tourist
     form_class=forms.TouristForm
     success_url = reverse_lazy('yurjin_journal:tourist_list')
@@ -259,7 +241,7 @@ class TouristCreateView(SuccessMessageMixin,generic.CreateView):
 
 
 class TouristUpdateView(SuccessMessageMixin,generic.UpdateView):
-    template_name = 'yurjin_journal/tourist_edit.html'
+    template_name = 'yurjin_journal/edit_form.html'
     model = Tourist
     form_class=forms.TouristForm
     success_url = reverse_lazy('yurjin_journal:tourist_list')
@@ -268,7 +250,7 @@ class TouristUpdateView(SuccessMessageMixin,generic.UpdateView):
 
 class TouristDeleteView(generic.DeleteView):
     model = Tourist
-    template_name = "yurjin_journal/tourist_delete.html"
+    template_name = "yurjin_journal/delete_form.html"
     success_url = reverse_lazy('yurjin_journal:tourist_list')
     success_message = "Данные туриста успешно удалены"    
     
@@ -280,9 +262,33 @@ class ProfileUpdateView(SuccessMessageMixin,generic.UpdateView):
     def get_object(self):
         return self.request.user.manager
         
-    template_name = 'yurjin_journal/profile_edit.html'
+    template_name = 'yurjin_journal/edit_form.html'
     model = Manager
     form_class=forms.ProfileForm
     success_url = reverse_lazy('yurjin_journal:index')
     success_message = "Профиль успешно изменен"
 
+
+
+
+
+
+
+'''
+class ContractArchiveIndexView(generic.ArchiveIndexView):
+    model = Contract
+    date_field = 'contract_date'
+
+
+class ContractYearArchiveView(generic.YearArchiveView):
+    model = Contract
+    date_field = 'contract_date'
+    
+
+class ContractMonthArchiveView(generic.MonthArchiveView):
+    model = Contract
+    date_field = 'contract_date'
+    month_format = '%m' 
+    context_object_name = 'contract_list'
+    #template_name = 'yurjin_journal/contract_list.html'
+'''

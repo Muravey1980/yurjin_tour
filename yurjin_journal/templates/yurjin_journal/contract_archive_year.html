@@ -1,8 +1,0 @@
-{% extends 'base.html' %}
-{% block content %}
-    <H1>{{ year|date:'Y' }} год</H1>
-    <H2>Выберите месяц:</H2>
-    {% for date in date_list %}
-        <a href="{% url 'yurjin_journal:contract_archive_month' date|date:'Y' date|date:'m' %}">{{ date|date:"M"}}</a>
-    {% endfor %}
-{% endblock %}
