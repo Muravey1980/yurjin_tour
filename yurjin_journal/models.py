@@ -314,6 +314,8 @@ class Contract(models.Model):
     
     def get_warnings(self):
         warnings=[]
+        if (self.hotel_begin_date-self.tour_begin_date).days>1:
+            warnings.append('Разница между началом тура и вселением в отель составляет больше суток' )
         #warnings.append('Шо-та не так')
         #warnings.append('Шо-та ваще не так')
         #warnings.append(self.client.get_warnings())

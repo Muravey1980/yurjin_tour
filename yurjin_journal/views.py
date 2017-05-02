@@ -17,7 +17,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 from dal import autocomplete
 
-from .models import Contract, Tourist, Manager, Payment, PaymentMethod, Resort, Status
+from .models import Contract, Tourist, Manager, Payment, PaymentMethod, Resort
 from common.views import FilteredAndSortedView
 from . import forms
 

@@ -73,41 +73,8 @@ class ContractForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super(ContractForm, self).clean()
-        if cleaned_data['contract_sum'] <= 0:
-            #raise ValidationError('Сумма контракта не может быть меньше нуля',code = 'invalid')
-            raise ValidationError('Не заполнена сумма контракта',code = 'invalid')
-        if cleaned_data['tour_begin_date'] == None:
-            raise ValidationError('Не указана дата начала тура',code = 'invalid')
-        if cleaned_data['tour_finish_date'] == None:
-            raise ValidationError('Не указана дата окончания тура',code = 'invalid')
-        if cleaned_data['hotel_begin_date'] == None:
-            raise ValidationError('Не указана дата заселения в отель',code = 'invalid')
-        if cleaned_data['hotel_finish_date'] == None:
-            raise ValidationError('Не указана дата выписки из отеля',code = 'invalid')
-        if cleaned_data['tour_finish_date'] and cleaned_data['tour_begin_date']:
-            if cleaned_data['tour_finish_date'] < cleaned_data['tour_begin_date']:
-                raise ValidationError('Дата окончания тура не может быть меньше даты начала тура',code = 'invalid')
-        if cleaned_data['hotel_finish_date'] and cleaned_data['hotel_begin_date']:    
-            if cleaned_data['hotel_finish_date'] < cleaned_data['hotel_begin_date']:
-                raise ValidationError('Дата выезда из отеля не может быть меньше даты въезда в отель',code = 'invalid')
-        if cleaned_data['hotel_begin_date'] and cleaned_data['tour_begin_date']:    
-            if cleaned_data['hotel_begin_date'] < cleaned_data['tour_begin_date']:
-                raise ValidationError('Дата въезда в отель не может быть меньше даты начала тура ',code = 'invalid')
-        if cleaned_data['tour_finish_date'] and cleaned_data['hotel_finish_date']:    
-            if cleaned_data['tour_finish_date'] < cleaned_data['hotel_finish_date']:
-                raise ValidationError('Дата окончания тура не может быть меньше даты выезда из отеля',code = 'invalid')
         
-        #if cleaned_data['tour_begin_date'] and cleaned_data['confirm_date']:    
-        #    if cleaned_data['tour_begin_date'] < cleaned_data['confirm_date']:
-        #        raise ValidationError('Дата начала тура не может быть меньше даты подтверждения тура',code = 'invalid')
-        #if cleaned_data['doc_issue_date'] and cleaned_data['confirm_date']:    
-        #    if cleaned_data['doc_issue_date'] < cleaned_data['confirm_date']:
-        #        raise ValidationError('Дата выдачи документов не может быть меньше даты подтверждения тура',code = 'invalid')
-        #if cleaned_data['tour_begin_date'] and cleaned_data['full_pay_date']:    
-        #    if cleaned_data['tour_begin_date'] < cleaned_data['full_pay_date']:
-        #        raise ValidationError('Дата начала тура не может быть меньше даты полной оплаты',code = 'invalid')
-        
-        
+        #Обязательные поля
         if cleaned_data['client'] == None:
             raise ValidationError('Не заполнено поле "клиент"',code = 'invalid')
         if cleaned_data['tourist_list'].count() == 0:
@@ -124,32 +91,35 @@ class ContractForm(forms.ModelForm):
             raise ValidationError('Не выбран тип номера',code = 'invalid')
         if cleaned_data['board'] == None:
             raise ValidationError('Не выбран тип питания',code = 'invalid')
+        if cleaned_data['contract_sum'] <= 0:
+            raise ValidationError('Не заполнена сумма контракта',code = 'invalid')
+        if cleaned_data['tour_begin_date'] == None:
+            raise ValidationError('Не указана дата начала тура',code = 'invalid')
+        if cleaned_data['tour_finish_date'] == None:
+            raise ValidationError('Не указана дата окончания тура',code = 'invalid')
+        if cleaned_data['hotel_begin_date'] == None:
+            raise ValidationError('Не указана дата заселения в отель',code = 'invalid')
+        if cleaned_data['hotel_finish_date'] == None:
+            raise ValidationError('Не указана дата выписки из отеля',code = 'invalid')
+        if cleaned_data['tour_finish_date'] < cleaned_data['tour_begin_date']:
+            raise ValidationError('Дата окончания тура не может быть меньше даты начала тура',code = 'invalid')
+        if cleaned_data['hotel_finish_date'] < cleaned_data['hotel_begin_date']:
+            raise ValidationError('Дата выезда из отеля не может быть меньше даты въезда в отель',code = 'invalid')
+        if cleaned_data['hotel_begin_date'] < cleaned_data['tour_begin_date']:
+            raise ValidationError('Дата въезда в отель не может быть меньше даты начала тура ',code = 'invalid')    
+        if cleaned_data['tour_finish_date'] < cleaned_data['hotel_finish_date']:
+            raise ValidationError('Дата окончания тура не может быть меньше даты выезда из отеля',code = 'invalid')
 
-        
-        
-        if cleaned_data['client'] == None:
-            raise ValidationError('Не заполнено поле "клиент"',code = 'invalid')
-        if cleaned_data['client'] == None:
-            raise ValidationError('Не заполнено поле "клиент"',code = 'invalid')
-        if cleaned_data['client'] == None:
-            raise ValidationError('Не заполнено поле "клиент"',code = 'invalid')
-        if cleaned_data['client'] == None:
-            raise ValidationError('Не заполнено поле "клиент"',code = 'invalid')
-        if cleaned_data['client'] == None:
-            raise ValidationError('Не заполнено поле "клиент"',code = 'invalid')
-        if cleaned_data['client'] == None:
-            raise ValidationError('Не заполнено поле "клиент"',code = 'invalid')
-        #if cleaned_data['_date'] == None:
-        #    raise ValidationError('Не указана дата ',code = 'invalid')
-        #if cleaned_data['_date'] == None:
-        #    raise ValidationError('Не указана дата ',code = 'invalid')
-        #if cleaned_data['_date'] == None:
-        #    raise ValidationError('Не указана дата ',code = 'invalid')
-        #if cleaned_data['prepayment_sum'] < 0:
-        #    raise ValidationError('Сумма предоплаты не может быть меньше нуля',code = 'invalid')    
-        #if cleaned_data['contract_sum'] < cleaned_data['prepayment_sum']:    
-        #    raise ValidationError('Сумма предоплаты не может быть больше суммы контракта',code = 'invalid')
-        
+        #Необязательные поля
+        if cleaned_data.get('confirm_date'):
+            if cleaned_data['tour_begin_date'] < cleaned_data['confirm_date']:
+                raise ValidationError('Дата начала тура не может быть меньше даты подтверждения тура',code = 'invalid')
+        if cleaned_data.get('doc_issue_date'):
+            if cleaned_data['confirm_date']==None or cleaned_data['doc_issue_date'] < cleaned_data['confirm_date']:
+                raise ValidationError('Дата выдачи документов не может быть меньше даты подтверждения тура',code = 'invalid')
+        if cleaned_data.get('full_pay_date'):
+            if cleaned_data['tour_begin_date'] < cleaned_data['full_pay_date']:
+                raise ValidationError('Дата начала тура не может быть меньше даты полной оплаты',code = 'invalid')
             
         return cleaned_data
          
