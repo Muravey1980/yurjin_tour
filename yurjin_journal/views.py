@@ -17,7 +17,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 from dal import autocomplete
 
-from .models import Contract, Tourist, Manager, Payment, PaymentMethod, Resort
+from .models import Contract, Tourist, Manager, Payment, PaymentMethod, Resort, Status
 from common.views import FilteredAndSortedView
 from . import forms
 
@@ -144,7 +144,7 @@ class ContractCreateView(SuccessMessageMixin,generic.CreateView):
         form.instance.office = self.request.user.manager.office
         form.instance.signatory = self.request.user.manager.office.tour_agency.director
         form.instance.contract_num = self.get_num()
-        #form.instance.status = form.instance.get_status()
+        #form.instance.status = Status.objects.get(name='signed')
         
         return super(ContractCreateView, self).form_valid(form)    
   
@@ -191,6 +191,7 @@ class ContractDeleteView(generic.DeleteView):
 class ContractPreview(generic.DetailView):
     model = Contract
     template_name = 'yurjin_journal/contract_preview.html'
+
 
 class ContractPrintView(generic.DetailView):
 
@@ -268,27 +269,3 @@ class ProfileUpdateView(SuccessMessageMixin,generic.UpdateView):
     success_url = reverse_lazy('yurjin_journal:index')
     success_message = "Профиль успешно изменен"
 
-
-
-
-
-
-
-'''
-class ContractArchiveIndexView(generic.ArchiveIndexView):
-    model = Contract
-    date_field = 'contract_date'
-
-
-class ContractYearArchiveView(generic.YearArchiveView):
-    model = Contract
-    date_field = 'contract_date'
-    
-
-class ContractMonthArchiveView(generic.MonthArchiveView):
-    model = Contract
-    date_field = 'contract_date'
-    month_format = '%m' 
-    context_object_name = 'contract_list'
-    #template_name = 'yurjin_journal/contract_list.html'
-'''

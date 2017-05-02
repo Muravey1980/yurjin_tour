@@ -237,7 +237,6 @@ class Contract(models.Model):
     board = models.ForeignKey(Board, on_delete = models.PROTECT, blank=True, null=True, verbose_name="Тип питания")
     
     transfer = models.BooleanField(blank=True, verbose_name="Включена перевозка наземным транспортом")
-    #excursion = models.BooleanField(blank=True, verbose_name="Включена экскурсионная программа")
     excursions = models.TextField(blank=True, verbose_name="Включенные экскурсии")
     russian_guide = models.BooleanField(blank=True, verbose_name="Включена встреча и проводы с русскоговорящим гидом")
     visa_support = models.BooleanField(blank=True, verbose_name="Включена визовая поддержка")
@@ -301,61 +300,17 @@ class Contract(models.Model):
         sum_str = num2text(sum_arr[1],rub)+' '+num2text(sum_arr[0]*100,kop)
         return sum_str
     
-    def filled_fully(self):
-        result=True
-        if(
-            self.contract_date == None
-            or self.tour_begin_date == None
-            or self.tour_finish_date == None
-            or self.hotel_begin_date == None
-            or self.hotel_finish_date == None
-            
-            or self.client == None
-            or self.tour_operator == None
-            or self.resort == None
-            or self.tourist_list.count()<1
-            or self.hotel_name == ''
-            or self.room_type == None
-            or self.board == None
-            
-            or self.contract_sum <= 0
-            ):
-            result=False
-        
-        return result    
-    
     def get_status(self):
-        contract_class = None
-        if self.filled_fully() == True:
-            contract_class = "signed"
-            if self.confirm_date:
-                contract_class = "confirmed"
-                if self.get_all_payments_sum() == self.contract_sum:
-                    contract_class = "fully_paid"
-                    if self.doc_issue_date:
-                        contract_class = "doc_isssued"
-        
-        
-        
-        #if self.filled_fully() == False:
-        #    contract_class = "signed"
-        #    if self.confirm_date:
-        #        contract_class = "confirmed"
-        #else:
-        #    if self.get_all_payments_sum() < self.contract_sum:
-        #        contract_class = "signed"
-        #    elif self.get_all_payments_sum() == self.contract_sum:
-        #        contract_class = "paid"
-        #        if self.tour_finish_date < timezone.datetime.now().date():
-        #            contract_class = "closed"
+        #contract_class = None
+        #if self.filled_fully() == True:
+        contract_class = "signed"
+        if self.confirm_date:
+            contract_class = "confirmed"
+            if self.get_all_payments_sum() == self.contract_sum:
+                contract_class = "fully_paid"
+                if self.doc_issue_date:
+                    contract_class = "doc_isssued"
         return Status.objects.get(status_name=contract_class)
-    
-    #def is_important(self):
-    #    if (self.confirm_date == None
-    #        or (self.confirm_date and self.tour_begin_date-timezone.today()<=14) 
-    #        or self.doc_issue_date == None):
-    #        result=True
-    #    return result   
     
     def get_warnings(self):
         warnings=[]
@@ -412,5 +367,63 @@ class Payment(models.Model):
     
     def __str__(self):
         #return 'Платеж по договору '+str(self.contract)+' на сумму '+str(self.payment_sum)
-        return 'Платеж по договору '+str(self.contract)+' на сумму '+str(self.payment_sum)
+        return 'по договору '+str(self.contract)+' на сумму '+str(self.payment_sum)
     
+
+
+
+
+
+
+'''
+    def filled_fully(self):
+        result=True
+        if(
+            self.contract_date == None
+            or self.tour_begin_date == None
+            or self.tour_finish_date == None
+            or self.hotel_begin_date == None
+            or self.hotel_finish_date == None
+            
+            or self.client == None
+            or self.tour_operator == None
+            or self.resort == None
+            #or self.tourist_list.count()<1
+            or self.tourist_list == None
+            or self.hotel_name == ''
+            or self.room_type == None
+            or self.board == None
+            
+            or self.contract_sum <= 0
+            ):
+            result=False
+        
+        return result
+        
+        
+    #def is_important(self):
+    #    if (self.confirm_date == None
+    #        or (self.confirm_date and self.tour_begin_date-timezone.today()<=14) 
+    #        or self.doc_issue_date == None):
+    #        result=True
+    #    return result
+    
+
+
+
+        
+        
+        
+        #if self.filled_fully() == False:
+        #    contract_class = "signed"
+        #    if self.confirm_date:
+        #        contract_class = "confirmed"
+        #else:
+        #    if self.get_all_payments_sum() < self.contract_sum:
+        #        contract_class = "signed"
+        #    elif self.get_all_payments_sum() == self.contract_sum:
+        #        contract_class = "paid"
+        #        if self.tour_finish_date < timezone.datetime.now().date():
+        #            contract_class = "closed"
+        #contract_class = "signed"       
+'''        

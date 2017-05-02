@@ -3,20 +3,7 @@ Created on 2016-10-31
 @author:   067SvobodskiiSE
 @contact: ssvobodskii@067.pfr.ru
 '''
-#from __future__ import absolute_import, unicode_literals
-#from django.utils.encoding import force_text
-#from __future__ import __all__
-
-#import dal
-#from django.conf import settings
-#from django.templatetags.i18n import language
-
-#from django.utils import timezone
-#from django.forms.models import inlineformset_factory
-#from django.forms.models import modelformset_factory
-
 from django.core.exceptions import ValidationError
-
 from django import forms
 from django.contrib.admin import widgets
 from dal import autocomplete
@@ -110,9 +97,9 @@ class ContractForm(forms.ModelForm):
             if cleaned_data['tour_finish_date'] < cleaned_data['hotel_finish_date']:
                 raise ValidationError('Дата окончания тура не может быть меньше даты выезда из отеля',code = 'invalid')
         
-        if cleaned_data['tour_begin_date'] and cleaned_data['confirm_date']:    
-            if cleaned_data['tour_begin_date'] < cleaned_data['confirm_date']:
-                raise ValidationError('Дата начала тура не может быть меньше даты подтверждения тура',code = 'invalid')
+        #if cleaned_data['tour_begin_date'] and cleaned_data['confirm_date']:    
+        #    if cleaned_data['tour_begin_date'] < cleaned_data['confirm_date']:
+        #        raise ValidationError('Дата начала тура не может быть меньше даты подтверждения тура',code = 'invalid')
         #if cleaned_data['doc_issue_date'] and cleaned_data['confirm_date']:    
         #    if cleaned_data['doc_issue_date'] < cleaned_data['confirm_date']:
         #        raise ValidationError('Дата выдачи документов не может быть меньше даты подтверждения тура',code = 'invalid')
