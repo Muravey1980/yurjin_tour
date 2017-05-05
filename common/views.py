@@ -3,8 +3,11 @@ Created on 2017-03-20
 @author:   067SvobodskiiSE
 @contact: ssvobodskii@067.pfr.ru
 '''
+from django.utils import timezone
 from django.views.generic.base import View
-from django.db.models import Q
+from django.db.models import Q, F
+
+from django.db.models import Sum
 
 
 from yurjin_journal.models import Contract,Tourist
@@ -47,24 +50,19 @@ class FilteredAndSortedView(View):
                 queryset=queryset.filter(Q(client__last_name__icontains=self.q) | Q(tourist_list__last_name__icontains=self.q)).distinct()
             elif(self.model==Tourist):
                 queryset=queryset.filter(last_name__icontains=self.q).distinct()
-            else:
-                pass
         
         #Только важные
         if(self.model==Contract):
+            critical_date=timezone.datetime.today() + timezone.timedelta(days=14)
+            queryset=queryset.annotate(total_paid=Sum('payment__payment_sum')).annotate(remain=F('contract_sum')-F('total_paid'))     
+            #queryset=queryset.annotate(total_paid=Sum('payment__payment_sum')).annotate(remain=F('contract_sum')-Sum('payment__payment_sum')).annotate(days=(critical_date))
             if (self.is_important==1):
                 queryset=queryset.filter(
                     Q(confirm_date=None) | #Нет даты подтверждения
-                    (~Q(confirm_date=None) & Q(doc_issue_date=None)) #Есть дата подтверждения и нет даты выдачи документов
-                    #(~Q(confirm_date=None) & () ) Добавить если есть дата подтвеждения и нет полной оплаты
+                    (~Q(confirm_date=None) & Q(doc_issue_date=None)) | #Есть дата подтверждения и нет даты выдачи документов
+                    (~Q(confirm_date=None) & Q(contract_sum__gt=F('total_paid')) ) | #есть дата подтвеждения и нет полной оплаты
+                    (Q(contract_sum__gt=F('total_paid')) & Q(tour_begin_date__lte=critical_date)) #До начала тура 2 недели и не оплачено полностью
                     )
-        
-            
-                
-        #
-            
-            #
-        #queryset=queryset.filter(confirm_date=None).distinct()
         
         #Сортировка
         if(self.model==Contract):

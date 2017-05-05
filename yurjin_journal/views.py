@@ -24,6 +24,7 @@ from . import forms
 class ResortListView(generic.ListView):
     model = Resort
 
+
 class ResortCreateView(SuccessMessageMixin,generic.CreateView):    
     template_name = 'yurjin_journal/edit_form.html'
     model = Resort
@@ -194,10 +195,8 @@ class ContractPreview(generic.DetailView):
 
 
 class ContractPrintView(generic.DetailView):
-
     model = Contract
     template_name = 'yurjin_journal/contract_print.html'
-    
 
     def get(self, request, *args, **kwargs):
         self.print_form=self.request.GET['print_form']
@@ -245,14 +244,19 @@ class TouristUpdateView(SuccessMessageMixin,generic.UpdateView):
     template_name = 'yurjin_journal/edit_form.html'
     model = Tourist
     form_class=forms.TouristForm
+    #success_url = reverse_lazy('yurjin_journal:tourist_list')
     success_url = reverse_lazy('yurjin_journal:tourist_list')
-    success_message = "Данные туриста успешно изменены"        
+    success_message = "Данные туриста успешно изменены"
+    
+    #def get_success_url(self):
+    #    success_url = self.kwargs['success_url']
+    #    return reverse_lazy(success_url)        
 
 
 class TouristDeleteView(generic.DeleteView):
     model = Tourist
     template_name = "yurjin_journal/delete_form.html"
-    success_url = reverse_lazy('yurjin_journal:tourist_list')
+    #success_url = reverse_lazy('yurjin_journal:tourist_list')
     success_message = "Данные туриста успешно удалены"    
     
 

@@ -8,6 +8,8 @@ from django.conf.urls import url
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.views import login, logout
 
+from django.core.urlresolvers import reverse_lazy
+
 from . import views
 
 app_name = 'yurjin_journal'
@@ -36,9 +38,11 @@ urlpatterns = [
     #Туристы
     url(r'^tourist_list/$',views.TouristList.as_view(),name='tourist_select'),
     url(r'^tourists/$', login_required(views.TouristListView.as_view()), name='tourist_list'),
-    url(r'^tourist/add/$', permission_required('yurjin_journal.add_contract')(views.TouristCreateView.as_view()),name = 'tourist_add'),
-    url(r'^tourist/(?P<pk>[0-9]+)/edit/$', permission_required('yurjin_journal.change_contract')(views.TouristUpdateView.as_view()), name='tourist_edit'),
-    url(r'^tourist/(?P<pk>[0-9]+)/delete/$', permission_required('yurjin_journal.delete_contract')(views.TouristDeleteView.as_view()),name = 'tourist_delete'),
+    url(r'^tourist/add/$', permission_required('yurjin_journal.add_tourist')(views.TouristCreateView.as_view()),name = 'tourist_add'),
+    #url(r'^tourist/(?P<pk>[0-9]+)/edit/$', permission_required('yurjin_journal.change_tourist')(views.TouristUpdateView.as_view(success_url='yurjin_main:index')), name='tourist_edit'),
+    #url(r'^tourist/(?P<pk>[0-9]+)/edit/$', permission_required('yurjin_journal.change_tourist')(views.TouristUpdateView.as_view()), {"success_url": 'yurjin_main:index'}, name='tourist_edit'),
+    url(r'^tourist/(?P<pk>[0-9]+)/edit/$', permission_required('yurjin_journal.change_tourist')(views.TouristUpdateView.as_view()), name='tourist_edit'),
+    url(r'^tourist/(?P<pk>[0-9]+)/delete/$', permission_required('yurjin_journal.delete_tourist')(views.TouristDeleteView.as_view()),name = 'tourist_delete'),
     
     
     #Курорты
