@@ -18,7 +18,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from dal import autocomplete
 
 from .models import Contract, Tourist, Manager, Payment, PaymentMethod, Resort
-from common.views import FilteredAndSortedView
+from common.views import FilteredAndSortedView, SuccessUrlView
 from . import forms
 
 class ResortListView(generic.ListView):
@@ -248,9 +248,23 @@ class TouristUpdateView(SuccessMessageMixin,generic.UpdateView):
     success_url = reverse_lazy('yurjin_journal:tourist_list')
     success_message = "Данные туриста успешно изменены"
     
+    def get_context_data(self, **kwargs):
+        context=super(TouristUpdateView,self).get_context_data(**kwargs)
+        context['success_url']=self.request.META.get('HTTP_REFERER')
+        
+        return context
+    
+    
+    
     #def get_success_url(self):
+    #    success_url  = str(self.request.META.get('HTTP_REFERER'))
     #    success_url = self.kwargs['success_url']
-    #    return reverse_lazy(success_url)        
+    #    return reverse_lazy(success_url)
+    #    success_url = '/'
+    #    success_url="/yurjin_journal/contract/1/preview/" 
+    #    return self.request.META.get('HTTP_REFERER','/')        
+
+
 
 
 class TouristDeleteView(generic.DeleteView):

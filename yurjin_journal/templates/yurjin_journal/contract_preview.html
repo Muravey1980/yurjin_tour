@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}Просмотр договора{% endblock %}
 {% block content %}
+
 <table>
     <tr><td colspan=4>Просмотр договора № {{contract.contract_num}}</td></tr>
     <tr><td colspan=4>Направление: {{contract.resort}}, {{contract.resort.country}}</td></tr>
@@ -29,14 +30,14 @@
 {% endfor %}
 {% for tourist in contract.tourist_list.all %}
     <li>{% for warning in tourist.get_warnings %}
-            <li><a href="{% url 'yurjin_journal:tourist_edit' tourist.id %}">{{tourist}}</a> - {{warning}}</li>
+            <li><a href="{% url 'yurjin_journal:tourist_edit' tourist.id %}?next={{ request.path }}">{{tourist}}</a> - {{warning}}</li>
             {% empty %}
         {% endfor %}
     </li>
 {% endfor %}
 </ul> 
     {% if contract.is_printable %}
-        <a href="{% url 'yurjin_journal:contract_print' contract.id  %}?print_form=contract">Распечатать договор</a></td>
+        <a href="{% url 'yurjin_journal:contract_print' contract.id %}?print_form=contract">Распечатать договор</a></td>
     {% endif %}
     
     {% if contract.doc_issue_date %}

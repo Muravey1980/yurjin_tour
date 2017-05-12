@@ -12,6 +12,10 @@ from django.db.models import Sum
 
 from yurjin_journal.models import Contract,Tourist
 
+class SuccessUrlView(View):
+    pass
+
+
 class FilteredAndSortedView(View):
     def get(self, request, *args, **kwargs):
         try:
