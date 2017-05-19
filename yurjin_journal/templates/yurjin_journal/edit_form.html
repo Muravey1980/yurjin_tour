@@ -5,9 +5,7 @@
 {% block title %}Изменение объекта: {{ form.instance|verbose_name }} {% endblock %}
 
 {% block content %}
-{{success_url}}
 <br>
-{{ request.META.HTTP_REFERER }}
 <h2>Изменение объекта</h2>
 <h4>{{ form.instance|verbose_name }} {{ object }}</h4>
     <form action="" method="post">

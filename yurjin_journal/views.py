@@ -245,14 +245,23 @@ class TouristUpdateView(SuccessMessageMixin,generic.UpdateView):
     model = Tourist
     form_class=forms.TouristForm
     #success_url = reverse_lazy('yurjin_journal:tourist_list')
-    success_url = reverse_lazy('yurjin_journal:tourist_list')
+    #success_url = reverse_lazy('yurjin_journal:tourist_list')
     success_message = "Данные туриста успешно изменены"
+    #success_url = None
     
-    def get_context_data(self, **kwargs):
-        context=super(TouristUpdateView,self).get_context_data(**kwargs)
-        context['success_url']=self.request.META.get('HTTP_REFERER')
+    def post(self, request, *args, **kwargs):
+        self.success_url = self.request.GET.get('next','/')
+        return super(TouristUpdateView, self).post(request, *args, **kwargs)
+    
+    #def get_success_url(self):
+        #global success_url
+        #return success_url
+        #return self.redirect_to
+    #def get_context_data(self, **kwargs):
+    #    context=super(TouristUpdateView,self).get_context_data(**kwargs)
+    #    context['success_url']=self.request.META.get('HTTP_REFERER')
         
-        return context
+    #    return context
     
     
     
