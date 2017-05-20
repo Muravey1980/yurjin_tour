@@ -1,5 +1,5 @@
     {% include "yurjin_journal/filter_form.html" %}
-    {% if perms.yurjin_journal.add_contract %}<a href="{% url 'yurjin_journal:contract_add' %}" class="addlink">Добавить Договор</a>{% endif %}
+    {% if perms.yurjin_journal.add_contract %}<a href="{% url 'yurjin_journal:contract_add' %}?next={{ request.path }}" class="addlink">Добавить Договор</a>{% endif %}
     {% if contract_list %}
         <table style="contract_grid">
             <tr>
@@ -29,12 +29,12 @@
                     
                     <td>
                         {% if perms.yurjin_journal.change_contract and contract.is_editable %}
-                            <a href="{% url 'yurjin_journal:contract_edit' contract.id %}">Изменить</a>
+                            <a href="{% url 'yurjin_journal:contract_edit' contract.id %}?next={{ request.path }}">Изменить</a>
                         {% endif %}
                     </td>
                     <td>
                         {% if perms.yurjin_journal.delete_contract and contract.is_deletable %}
-                            <a href="{% url 'yurjin_journal:contract_delete' contract.id %}">Удалить</a>
+                            <a href="{% url 'yurjin_journal:contract_delete' contract.id %}?next={{ request.path }}">Удалить</a>
                         {% endif %}
                     </td>
                     <td>

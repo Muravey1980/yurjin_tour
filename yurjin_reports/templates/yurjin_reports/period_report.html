@@ -3,6 +3,7 @@
 {% block title %}Отчеты{% endblock %}
 
 {% block content %}
+{% include 'yurjin_reports/period_form.html' %}
 Отчет за период с {{date_from}} по {{ date_to }}
 
 {%for contract in contract_list %}
@@ -14,7 +15,7 @@
 {% endfor %}
 
 <table>
-<tr><th>Офис</th><th>Менеджер</th><th>Количество</th><th>Сумма</th></tr>
+<tr><th>Офис</th><th>Менеджер</th><th>Количество договоров</th><th>Сумма договоров</th></tr>
 {%for manager in manager_list %}
     <tr>
         <td>{{ manager.office }}</td><td>{{ manager }}</td><td>{{ manager.total_count }}</td><td>{{ manager.total_sum }}</td>

@@ -5,14 +5,14 @@
 
     {% include "yurjin_journal/filter_form.html" %}
     
-    <a href="{% url 'yurjin_journal:resort_add' %}" class="addlink">Добавить курорт</a>
+    <a href="{% url 'yurjin_journal:resort_add' %}?next={{ request.path }}" class="addlink">Добавить курорт</a>
     {% if resort_list %}
         <table ><th>Список туристов:</th>
             {% for resort in resort_list %}
                 <tr>
                     <td>{{ resort }}</td>
-                    {% if perms.yurjin_journal.change_resort %}<td><a href="{% url 'yurjin_journal:resort_edit' resort.id %}">Изменить</a></td>{% endif %}
-                    {% if perms.yurjin_journal.delete_resort %}<td><a href="{% url 'yurjin_journal:resort_delete' resort.id %}">Удалить</a></td>{% endif %}
+                    {% if perms.yurjin_journal.change_resort %}<td><a href="{% url 'yurjin_journal:resort_edit' resort.id %}?next={{ request.path }}">Изменить</a></td>{% endif %}
+                    {% if perms.yurjin_journal.delete_resort %}<td><a href="{% url 'yurjin_journal:resort_delete' resort.id %}?next={{ request.path }}">Удалить</a></td>{% endif %}
                 </tr>
             {% endfor %}
         </table>

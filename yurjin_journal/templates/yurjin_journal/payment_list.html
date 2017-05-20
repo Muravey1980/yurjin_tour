@@ -2,7 +2,7 @@
 {% block title %}Платежи{% endblock %}
 
 {% block content %}
-    <a href="{% url 'yurjin_journal:payment_add' %}" class="addlink">Внести платеж</a>
+    <a href="{% url 'yurjin_journal:payment_add' %}?next={{ request.path }}" class="addlink">Внести платеж</a>
     {% if payment_list %}
         <table>
         {% for payment in payment_list %}
@@ -12,7 +12,7 @@
                 <td>{{ payment.office }}</td>
                 
                 <td><a href="{% url 'yurjin_journal:payment_print' payment.id %}">Распечатать</a></td>
-                <td>{% if perms.yurjin_journal.delete_payment and payment.is_deletable %}<a href="{% url 'yurjin_journal:payment_delete' payment.id %}">Удалить</a>{% endif %}</td>
+                <td>{% if perms.yurjin_journal.delete_payment and payment.is_deletable %}<a href="{% url 'yurjin_journal:payment_delete' payment.id %}?next={{ request.path }}">Удалить</a>{% endif %}</td>
             </tr>
         {% endfor %}
         </table>

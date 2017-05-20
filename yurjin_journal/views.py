@@ -12,7 +12,7 @@
 from django.core.urlresolvers import reverse_lazy
 from django.utils import timezone
 from django.views import generic
-from django.contrib.messages.views import SuccessMessageMixin
+#from django.contrib.messages.views import SuccessMessageMixin
 
 
 from dal import autocomplete
@@ -25,19 +25,19 @@ class ResortListView(generic.ListView):
     model = Resort
 
 
-class ResortCreateView(SuccessMessageMixin,generic.CreateView):    
+class ResortCreateView(SuccessUrlView,generic.CreateView):    
     template_name = 'yurjin_journal/edit_form.html'
     model = Resort
     form_class=forms.ResortForm
-    success_url = reverse_lazy('yurjin_journal:resort_list')
+    #success_url = reverse_lazy('yurjin_journal:resort_list')
     success_message = "Курорт успешно добавлен"       
 
 
-class ResortUpdateView(SuccessMessageMixin,generic.UpdateView):
+class ResortUpdateView(SuccessUrlView,generic.UpdateView):
     template_name = 'yurjin_journal/edit_form.html'
     model = Resort
     form_class=forms.ResortForm
-    success_url = reverse_lazy('yurjin_journal:resort_list')
+    #success_url = reverse_lazy('yurjin_journal:resort_list')
     success_message = "Курорт успешно изменен"        
 
 
@@ -76,11 +76,11 @@ class PaymentListView(generic.ListView):
         return q.order_by('-payment_date')
 
     
-class PaymentCreateView(generic.CreateView):
+class PaymentCreateView(SuccessUrlView,generic.CreateView):
     template_name = 'yurjin_journal/edit_form.html'
     model = Payment    
     form_class=forms.PaymentForm
-    success_url = reverse_lazy('yurjin_journal:payment_list')
+    #success_url = reverse_lazy('yurjin_journal:payment_list')
     success_message = "Платеж успешно внесен"
     initial = {
                 #'payment_date': timezone.datetime.today(),
@@ -133,7 +133,7 @@ class ContractListView(FilteredAndSortedView, generic.ListView):
     #paginate_by = 20
 
 
-class ContractCreateView(SuccessMessageMixin,generic.CreateView):
+class ContractCreateView(SuccessUrlView,generic.CreateView):
     def get_num(self):
         last_month_contract = Contract.objects.filter(contract_date__month=timezone.datetime.today().month,contract_date__year=timezone.datetime.today().year).order_by('contract_date','contract_num').last()
         new_num = last_month_contract.contract_num+1 if last_month_contract else 1 
@@ -165,15 +165,15 @@ class ContractCreateView(SuccessMessageMixin,generic.CreateView):
     #Contract.objects.filter(contract_num__year=timezone.datetime.year(timezone.datetime.now())).order_by('-number')[0]+1
     #initial = {'contract_num':Contract.objects.filter().max() (field_name='contract_date').contract_num+1}
     form_class=forms.ContractForm
-    success_url = reverse_lazy('yurjin_journal:index')
+    #success_url = reverse_lazy('yurjin_journal:index')
     success_message = "Договор успешно создан"        
 
 
-class ContractUpdateView(SuccessMessageMixin,generic.UpdateView):
+class ContractUpdateView(SuccessUrlView,generic.UpdateView):
     template_name = 'yurjin_journal/edit_form.html'
     model = Contract
     form_class=forms.ContractForm
-    success_url = reverse_lazy('yurjin_journal:index')
+    #success_url = reverse_lazy('yurjin_journal:index')
     success_message = "Договор успешно изменен"        
 
     def form_valid(self, form):
@@ -227,11 +227,11 @@ class TouristListView(FilteredAndSortedView, generic.ListView):
     model = Tourist
 
 
-class TouristCreateView(SuccessMessageMixin,generic.CreateView):    
+class TouristCreateView(SuccessUrlView,generic.CreateView):    
     template_name = 'yurjin_journal/edit_form.html'
     model = Tourist
     form_class=forms.TouristForm
-    success_url = reverse_lazy('yurjin_journal:tourist_list')
+    #success_url = reverse_lazy('yurjin_journal:tourist_list')
     success_message = "Даннные туриста успешно добавлены"
     
     def form_valid(self, form):
@@ -240,7 +240,7 @@ class TouristCreateView(SuccessMessageMixin,generic.CreateView):
         return super(TouristCreateView, self).form_valid(form)         
 
 
-class TouristUpdateView(SuccessMessageMixin,generic.UpdateView):
+class TouristUpdateView(SuccessUrlView,generic.UpdateView):
     template_name = 'yurjin_journal/edit_form.html'
     model = Tourist
     form_class=forms.TouristForm
@@ -249,9 +249,7 @@ class TouristUpdateView(SuccessMessageMixin,generic.UpdateView):
     success_message = "Данные туриста успешно изменены"
     #success_url = None
     
-    def post(self, request, *args, **kwargs):
-        self.success_url = self.request.GET.get('next','/')
-        return super(TouristUpdateView, self).post(request, *args, **kwargs)
+
     
     #def get_success_url(self):
         #global success_url
@@ -279,20 +277,20 @@ class TouristUpdateView(SuccessMessageMixin,generic.UpdateView):
 class TouristDeleteView(generic.DeleteView):
     model = Tourist
     template_name = "yurjin_journal/delete_form.html"
-    #success_url = reverse_lazy('yurjin_journal:tourist_list')
+    success_url = reverse_lazy('yurjin_journal:tourist_list')
     success_message = "Данные туриста успешно удалены"    
     
 
 
       
 
-class ProfileUpdateView(SuccessMessageMixin,generic.UpdateView):
+class ProfileUpdateView(SuccessUrlView,generic.UpdateView):
     def get_object(self):
         return self.request.user.manager
         
     template_name = 'yurjin_journal/edit_form.html'
     model = Manager
     form_class=forms.ProfileForm
-    success_url = reverse_lazy('yurjin_journal:index')
+    #success_url = reverse_lazy('yurjin_journal:index')
     success_message = "Профиль успешно изменен"
 

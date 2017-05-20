@@ -5,15 +5,18 @@ Created on 2017-03-20
 '''
 from django.utils import timezone
 from django.views.generic.base import View
-from django.db.models import Q, F
+from django.contrib.messages.views import SuccessMessageMixin
 
+from django.db.models import Q, F
 from django.db.models import Sum
 
 
 from yurjin_journal.models import Contract,Tourist
 
-class SuccessUrlView(View):
-    pass
+class SuccessUrlView(SuccessMessageMixin):
+    def post(self, request, *args, **kwargs):
+        self.success_url = self.request.GET.get('next','/')
+        return super(SuccessUrlView, self).post(request, *args, **kwargs)
 
 
 class FilteredAndSortedView(View):

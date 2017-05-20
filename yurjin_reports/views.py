@@ -8,6 +8,9 @@ from yurjin_journal.models import Manager, Office, Contract, Status
 from django.db.models import Count,Max,Sum
 import datetime 
 
+from . import forms
+#from django import forms
+
 class ReportIndexView(TemplateView):
     template_name = 'yurjin_reports/index.html' 
 
@@ -16,7 +19,9 @@ class PeriodReportView(TemplateView):
     template_name = 'yurjin_reports/period_report.html'
     #queryset=Office.objects.all()
     date_from = datetime.date(2017,1,1)
-    date_to   = datetime.date(2017,3,31)
+    date_to   = datetime.date(2017,5,31)
+    
+    form = forms.PeriodForm()
     
     def get_context_data(self, **kwargs):
         context=super(PeriodReportView,self).get_context_data(**kwargs)
