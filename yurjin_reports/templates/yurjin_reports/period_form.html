@@ -1,5 +1,5 @@
 {% csrf_token %}
 <form action="" method="get">
-    {{ form }}
+    {% include 'form.html' %}
     <input type="submit" value="Сформировать">
 </form>

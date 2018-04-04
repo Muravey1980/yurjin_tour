@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
-
+{% load staticfiles %}
+{% load my_filters %}
 {% block title %}Отчеты{% endblock %}
 
 {% block content %}
@@ -15,10 +16,10 @@
 {% endfor %}
 
 <table>
-<tr><th>Офис</th><th>Менеджер</th><th>Количество договоров</th><th>Сумма договоров</th></tr>
+<tr><th>Офис</th><th>Менеджер</th><th>Количество договоров</th><th>Сумма договоров</th><th>Маржа</th></tr>
 {%for manager in manager_list %}
     <tr>
-        <td>{{ manager.office }}</td><td>{{ manager }}</td><td>{{ manager.total_count }}</td><td>{{ manager.total_sum }}</td>
+        <td>{{ manager.office }}</td><td>{{ manager }}</td><td>{{ manager.total_count }}</td><td>{{ manager.total_sum }}</td><td>{{ manager.total_margin }}</td>
     </tr>
 {% endfor %}
 </table>

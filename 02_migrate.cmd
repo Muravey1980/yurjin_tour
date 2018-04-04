@@ -1,1 +1,1 @@
-c:\Develope\Python36\python manage.py migrate
+c:\Develope\Python36_x64\python manage.py migrate

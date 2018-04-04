@@ -36,6 +36,7 @@
 # /images/*
 /.settings/*
 
+
 # Игнорирование всех файлов и папок в ЛЮБЫХ директориях с указанным именем
 # Например /images/user.jpg, /core/images/user.jpg
 # images/*
